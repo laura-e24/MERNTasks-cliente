@@ -1,17 +1,14 @@
 import Tarea from "./Tarea"
 import proyectoContext from "../../context/proyectos/proyectoContext"
 import { useContext } from "react"
+import tareaContext from "../../context/tareas/tareasContext"
+import { CSSTransition, TransitionGroup } from "react-transition-group"
+
 
 const ListadoTareas = () => {
 
-    const { proyecto, deleteProyecto, proyectos } = useContext(proyectoContext)
-
-    const tareas = [
-        {name: "React", status: true},
-        {name: "Redux", status: false},
-        {name: "MERN", status: true},
-        {name: "Gatsby", status: false},
-    ]
+    const { proyecto, deleteProyecto } = useContext(proyectoContext)
+    const { tareasProyecto } = useContext(tareaContext)
 
     if (!proyecto) return <h2>Seleccione un proyecto</h2>  
     const [proyectoActual] = proyecto
@@ -20,14 +17,18 @@ const ListadoTareas = () => {
         <>
         <h2>Proyecto: {proyectoActual.name}</h2>
         <ul className="listado-tareas">
-            {tareas.length === 0 ? (
+            {tareasProyecto?.length === 0 ? (
                 <li className="tarea">
                     <p>No hay tareas.</p>
                 </li>
             ) : (
-                tareas.map(tarea => (
-                    <Tarea tarea={tarea} />
-                ))
+               <TransitionGroup>
+                    {tareasProyecto?.map(tarea => (
+                        <CSSTransition key={tarea.id} timeout={200} classNames="tarea">
+                            <Tarea tarea={tarea} />
+                        </CSSTransition>
+                    ))}
+               </TransitionGroup>
             )}
         </ul>
         <button

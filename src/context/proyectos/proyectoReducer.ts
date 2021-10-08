@@ -17,8 +17,7 @@ export default (state, action) => {
         case ADD_PROYECTO:
             return {
                 ...state,
-                // proyectos: [...state.proyectos, action.payload]
-                proyectos: state.proyectos.concat(action.payload),
+                proyectos: [action.payload, ...state.proyectos],
                 formulario: false,
                 errorFormulario: false
             }
