@@ -10,7 +10,7 @@ const Tarea = ({ tarea }) => {
     const { proyecto } = proyectosContext
 
     const tareasContext = useContext(tareaContext)
-    const { deleteTarea, getTareas, updateStatus } = tareasContext
+    const { deleteTarea, getTareas, updateStatus, saveTareaActual } = tareasContext
 
     const [proyectoActual] = proyecto
 
@@ -25,6 +25,10 @@ const Tarea = ({ tarea }) => {
         } else tarea.status = true
 
         updateStatus(tarea)
+    }
+
+    const selectTarea = tarea => {
+        saveTareaActual(tarea)
     }
 
     return (
@@ -53,6 +57,7 @@ const Tarea = ({ tarea }) => {
                 <button
                     type="button"
                     className="btn btn-primario"
+                    onClick={() => selectTarea(tarea)}
                 >
                     Editar
                 </button>
